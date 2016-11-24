@@ -33,52 +33,32 @@ app.intent('MovieByActor', {
 );
 
 function getMoviesByDirectorOrActor(req, res) {
-  const type = req.data.request.intent.name;
-
-    let reprompt = `I'm not sure what director or actor you are looking for. Please try again.`;
+try{
+  const type = (req.data.request.intent.name == 'MovieByDirector' ? 'Director':'Actor');
+  const search = req.slot(type);
+  const query = `?${type.toLowerCase()}=${search.replace(/ /g,'%20')}`;
+    let reprompt = `Sorry, I'm not sure what ${type} you are looking for. Please try again.`;
     let options = Object.assign({}, apiRequestOptions);
-    let movieData = ``;
-    if (type == 'MovieByDirector') {
-      const director = req.slot('Director');
-        options.path += `?director=${director.replace(/ /g,'%20')}`;
-        //load api response
-        executeAPIRequest(options, (err, movieData) => {
-          if(err){
-            res.say( `I was unable to find any movies directed by ${director}. Please request another director, or say Stop if you are done.`)
-            .reprompt(`Would you like to try another search? Or you can say Stop if you are done.`)
-            .shouldEndSession(false)
-            .send();
-          }else{
-            let bestMovie = selectBestMovie(movieData);
-            res
-              .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.`)
-              .reprompt(`Would you like to hear the movie summary? Or you can say Stop if you are done.`)
-              .shouldEndSession(false)
-              .send();
-          }
-        })
-        return false;
-    } else if(type == 'MovieByActor'){
-      const actor = req.slot('Actor');
-      options.path += `?actor=${actor.replace(/ /g,'%20')}`;
-      //load api response
-      executeAPIRequest(options, (err, movieData) => {
-        if(err){
-          res.say( `I was unable to find any movies starring by ${actor}. Please request another actor, or say Stop if you are done.`)
-          .reprompt(`Would you like to try another search? Or you can say Stop if you are done.`)
+    options.path += query;
+    //load api response
+    executeAPIRequest(options, (err, movieData) => {
+      if(err || !movieData || !movieData.length){
+        res.say( `I was unable to find any movies ${type == 'Director'? 'directed by':'starring'} ${search}.
+        Please request another ${type}, or say Stop if you are done.`)
+        .reprompt(`Would you like to try another search? Or you can say Stop if you are done.`)
+        .shouldEndSession(false)
+        .send();
+      }else{
+        let bestMovie = selectBestMovie(movieData);
+        res
+          .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.`)
+          .reprompt(`Would you like to hear the movie summary? Or you can say Stop if you are done.`)
           .shouldEndSession(false)
           .send();
-        }else{
-          let bestMovie = selectBestMovie(movieData);
-          res
-            .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.`)
-            .reprompt(`Would you like to hear the movie summary? Or you can say Stop if you are done.`)
-            .shouldEndSession(false)
-            .send();
-        }
-      })
+      }
+    });
       return false;
-    }else{
+}catch(e){
         res.say(reprompt).reprompt(reprompt).shouldEndSession(false).send();
         return true;
     }
@@ -95,7 +75,6 @@ function executeAPIRequest(options, callback){
       if(response.statusCode === 200){
           movieData = JSON.parse(movieData);
           callback(null, movieData);
-
       }else{
         callback(response);
       }
@@ -109,7 +88,7 @@ function executeAPIRequest(options, callback){
 }
 
 function selectBestMovie(movieList) {
-  return movieList[0];
+  return movieList && movieList[0];
 }
 
 module.exports = app;
