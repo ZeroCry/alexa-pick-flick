@@ -1,0 +1,24 @@
+MovieByActor find a movie starring {Madonna|Actor}
+MovieByActor find a movie starring {BD Wong|Actor}
+MovieByActor find a movie starring {Tom Hanks|Actor}
+MovieByActor find a movie starring {Philip Seymour Hoffman|Actor}
+MovieByActor find a movie with {Madonna|Actor}
+MovieByActor find a movie with {BD Wong|Actor}
+MovieByActor find a movie with {Tom Hanks|Actor}
+MovieByActor find a movie with {Philip Seymour Hoffman|Actor}
+MovieByActor pick a movie starring {Madonna|Actor}
+MovieByActor pick a movie starring {BD Wong|Actor}
+MovieByActor pick a movie starring {Tom Hanks|Actor}
+MovieByActor pick a movie starring {Philip Seymour Hoffman|Actor}
+MovieByActor pick a movie with {Madonna|Actor}
+MovieByActor pick a movie with {BD Wong|Actor}
+MovieByActor pick a movie with {Tom Hanks|Actor}
+MovieByActor pick a movie with {Philip Seymour Hoffman|Actor}
+MovieByDirector find a movie directed by {Madonna|Director}
+MovieByDirector find a movie directed by {BD Wong|Director}
+MovieByDirector find a movie directed by {Tom Hanks|Director}
+MovieByDirector find a movie directed by {Philip Seymour Hoffman|Director}
+MovieByDirector pick a movie directed by {Madonna|Director}
+MovieByDirector pick a movie directed by {BD Wong|Director}
+MovieByDirector pick a movie directed by {Tom Hanks|Director}
+MovieByDirector pick a movie directed by {Philip Seymour Hoffman|Director}

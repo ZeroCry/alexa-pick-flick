@@ -1,0 +1,17 @@
+{
+  "name": "alexa-pick-flick",
+  "version": "1.0.0",
+  "description": "Amazon Alexa app which allows users to find movies available on Netflix for a desired actor or director",
+  "main": "lambda.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "alexa",
+    "netflix",
+    "movie",
+    "amazon"
+  ],
+  "author": "Chris Deely",
+  "license": "ISC"
+}
