@@ -18,7 +18,7 @@ app.intent('MovieByDirector', {
   'slots': {
     'Director': 'AMAZON.LITERAL'
   },
-  'utterances': ['{find|pick|get} {movies|shows|a movie|show} directed by {-|Director}']
+  'utterances': ['{find|pick|get} {movies|shows|a movie|show} directed by {names|Director}']
 },
   function getMoviesByDirector(req, res) {
     const director = req.slot('Director');
@@ -78,3 +78,4 @@ function selectBestMovie(movieList) {
 
 module.exports = app;
 module.change_code=1
+exports.handler = app.lambda();
