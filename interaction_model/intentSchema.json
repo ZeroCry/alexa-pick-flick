@@ -1,6 +1,15 @@
 {
   "intents": [
     {
+      "intent": "MovieByDirector",
+      "slots": [
+        {
+          "name": "Director",
+          "type": "AMAZON.LITERAL"
+        }
+      ]
+    },
+    {
       "intent": "MovieByActor",
       "slots": [
         {
@@ -10,13 +19,8 @@
       ]
     },
     {
-      "intent": "MovieByDirector",
-      "slots": [
-        {
-          "name": "Director",
-          "type": "AMAZON.LITERAL"
-        }
-      ]
+      "intent": "PickSomethingElse",
+      "slots": []
     }
   ]
 }

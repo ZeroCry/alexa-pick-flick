@@ -1,24 +1,104 @@
-MovieByActor find a movie starring {Madonna|Actor}
-MovieByActor find a movie starring {BD Wong|Actor}
-MovieByActor find a movie starring {Tom Hanks|Actor}
-MovieByActor find a movie starring {Philip Seymour Hoffman|Actor}
-MovieByActor find a movie with {Madonna|Actor}
-MovieByActor find a movie with {BD Wong|Actor}
-MovieByActor find a movie with {Tom Hanks|Actor}
-MovieByActor find a movie with {Philip Seymour Hoffman|Actor}
-MovieByActor pick a movie starring {Madonna|Actor}
-MovieByActor pick a movie starring {BD Wong|Actor}
-MovieByActor pick a movie starring {Tom Hanks|Actor}
-MovieByActor pick a movie starring {Philip Seymour Hoffman|Actor}
-MovieByActor pick a movie with {Madonna|Actor}
-MovieByActor pick a movie with {BD Wong|Actor}
-MovieByActor pick a movie with {Tom Hanks|Actor}
-MovieByActor pick a movie with {Philip Seymour Hoffman|Actor}
-MovieByDirector find a movie directed by {Madonna|Director}
-MovieByDirector find a movie directed by {BD Wong|Director}
-MovieByDirector find a movie directed by {Tom Hanks|Director}
-MovieByDirector find a movie directed by {Philip Seymour Hoffman|Director}
-MovieByDirector pick a movie directed by {Madonna|Director}
-MovieByDirector pick a movie directed by {BD Wong|Director}
-MovieByDirector pick a movie directed by {Tom Hanks|Director}
-MovieByDirector pick a movie directed by {Philip Seymour Hoffman|Director}
+MovieByDirector	find movies directed by {three word name|Director}
+MovieByDirector	pick movies directed by {onename|Director}
+MovieByDirector	get movies directed by {two name|Director}
+MovieByDirector	recommend movies directed by {three word name|Director}
+MovieByDirector	find shows directed by {onename|Director}
+MovieByDirector	pick shows directed by {two name|Director}
+MovieByDirector	get shows directed by {three word name|Director}
+MovieByDirector	recommend shows directed by {onename|Director}
+MovieByDirector	find a movie directed by {two name|Director}
+MovieByDirector	pick a movie directed by {three word name|Director}
+MovieByDirector	get a movie directed by {onename|Director}
+MovieByDirector	recommend a movie directed by {two name|Director}
+MovieByDirector	find show directed by {three word name|Director}
+MovieByDirector	pick show directed by {onename|Director}
+MovieByDirector	get show directed by {two name|Director}
+MovieByDirector	recommend show directed by {three word name|Director}
+MovieByActor	find movies starring {onename|Actor}
+MovieByActor	pick movies starring {two name|Actor}
+MovieByActor	get movies starring {three word name|Actor}
+MovieByActor	recommend movies starring {onename|Actor}
+MovieByActor	choose movies starring {two name|Actor}
+MovieByActor	find shows starring {three word name|Actor}
+MovieByActor	pick shows starring {onename|Actor}
+MovieByActor	get shows starring {two name|Actor}
+MovieByActor	recommend shows starring {three word name|Actor}
+MovieByActor	choose shows starring {onename|Actor}
+MovieByActor	find a movie starring {two name|Actor}
+MovieByActor	pick a movie starring {three word name|Actor}
+MovieByActor	get a movie starring {onename|Actor}
+MovieByActor	recommend a movie starring {two name|Actor}
+MovieByActor	choose a movie starring {three word name|Actor}
+MovieByActor	find show starring {onename|Actor}
+MovieByActor	pick show starring {two name|Actor}
+MovieByActor	get show starring {three word name|Actor}
+MovieByActor	recommend show starring {onename|Actor}
+MovieByActor	choose show starring {two name|Actor}
+MovieByActor	find movies with {three word name|Actor}
+MovieByActor	pick movies with {onename|Actor}
+MovieByActor	get movies with {two name|Actor}
+MovieByActor	recommend movies with {three word name|Actor}
+MovieByActor	choose movies with {onename|Actor}
+MovieByActor	find shows with {two name|Actor}
+MovieByActor	pick shows with {three word name|Actor}
+MovieByActor	get shows with {onename|Actor}
+MovieByActor	recommend shows with {two name|Actor}
+MovieByActor	choose shows with {three word name|Actor}
+MovieByActor	find a movie with {onename|Actor}
+MovieByActor	pick a movie with {two name|Actor}
+MovieByActor	get a movie with {three word name|Actor}
+MovieByActor	recommend a movie with {onename|Actor}
+MovieByActor	choose a movie with {two name|Actor}
+MovieByActor	find show with {three word name|Actor}
+MovieByActor	pick show with {onename|Actor}
+MovieByActor	get show with {two name|Actor}
+MovieByActor	recommend show with {three word name|Actor}
+MovieByActor	choose show with {onename|Actor}
+MovieByActor	find movies featuring {two name|Actor}
+MovieByActor	pick movies featuring {three word name|Actor}
+MovieByActor	get movies featuring {onename|Actor}
+MovieByActor	recommend movies featuring {two name|Actor}
+MovieByActor	choose movies featuring {three word name|Actor}
+MovieByActor	find shows featuring {onename|Actor}
+MovieByActor	pick shows featuring {two name|Actor}
+MovieByActor	get shows featuring {three word name|Actor}
+MovieByActor	recommend shows featuring {onename|Actor}
+MovieByActor	choose shows featuring {two name|Actor}
+MovieByActor	find a movie featuring {three word name|Actor}
+MovieByActor	pick a movie featuring {onename|Actor}
+MovieByActor	get a movie featuring {two name|Actor}
+MovieByActor	recommend a movie featuring {three word name|Actor}
+MovieByActor	choose a movie featuring {onename|Actor}
+MovieByActor	find show featuring {two name|Actor}
+MovieByActor	pick show featuring {three word name|Actor}
+MovieByActor	get show featuring {onename|Actor}
+MovieByActor	recommend show featuring {two name|Actor}
+MovieByActor	choose show featuring {three word name|Actor}
+PickSomethingElse	find something else
+PickSomethingElse	pick something else
+PickSomethingElse	get something else
+PickSomethingElse	recommend something else
+PickSomethingElse	choose something else
+PickSomethingElse	find another
+PickSomethingElse	pick another
+PickSomethingElse	get another
+PickSomethingElse	recommend another
+PickSomethingElse	choose another
+PickSomethingElse	find something different
+PickSomethingElse	pick something different
+PickSomethingElse	get something different
+PickSomethingElse	recommend something different
+PickSomethingElse	choose something different
+PickSomethingElse	find next
+PickSomethingElse	pick next
+PickSomethingElse	get next
+PickSomethingElse	recommend next
+PickSomethingElse	choose next
+PickSomethingElse	find next option
+PickSomethingElse	pick next option
+PickSomethingElse	get next option
+PickSomethingElse	recommend next option
+PickSomethingElse	choose next option
+PickSomethingElse	next
+PickSomethingElse	skip
+PickSomethingElse	no

@@ -31,9 +31,15 @@ app.intent('MovieByActor', {
   'slots': {
     'Actor': 'AMAZON.LITERAL'
   },
-  'utterances': ['{find|pick|get|recommend} {movies|shows|a movie|show} {starring|with|featuring} {onename|two name|three word name|Actor}']
+  'utterances': ['{find|pick|get|recommend|choose} {movies|shows|a movie|show} {starring|with|featuring} {onename|two name|three word name|Actor}']
 },
   getMoviesByDirectorOrActor
+);
+
+app.intent('PickSomethingElse', {
+  'utterances': ['{find|pick|get|recommend|choose} {something else|another|something different|next|next option}','{next|skip|no}']
+},
+  getNextOptionFromList
 );
 
 function getMoviesByDirectorOrActor(req, res) {
@@ -53,21 +59,7 @@ try{
         .shouldEndSession(false)
         .send();
       }else{
-        let bestMovie = selectBestMovie(movieData);
-        res
-          .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
-            A full description is shown in your Alexa app.`)
-          .card({
-              type: "Standard",
-              title: bestMovie.show_title,
-              text:  bestMovie.summary,
-              image: {
-                smallImageUrl: bestMovie.poster.replace('http:','https:')
-              }
-            })
-          .reprompt(`You can make another request or you can say Stop if you are done.`)
-          .shouldEndSession(false)
-          .send();
+        sendMovieRecommendation(movieData, res);
       }
     });
       return false;
@@ -100,8 +92,51 @@ function executeAPIRequest(options, callback){
   .end();
 }
 
+function getNextOptionFromList(req, res) {
+  const noDataResponse = 'Sorry, I do not have any additional movies options for this request. Please request a different actor or director';
+  let movieData = null;
+  try {
+    movieData = req.session('activeMovieArray');
+    if(!movieData || movieData.length === 0){
+      res.say(noDataResponse);
+      return true;
+    }
+    sendMovieRecommendation(movieData, res);
+  }catch(e){
+    res.say(noDataResponse);
+  }
+}
+
+function sendMovieRecommendation(movieData, res) {
+  let bestMovie = selectBestMovie(movieData);
+  let nextStepMsg = `I have no more recommendations for this search. You may request a different actor or director `;
+  if(movieData.length > 0){
+    const singular = movieData.length === 1;
+    nextStepMsg = `There ${singular ? 'is':'are'} ${movieData.length} other option${singular?'':'s'}, say 'Pick something else'`;
+  }
+
+  res
+    .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
+      A full description is shown in your Alexa app. ${nextStepMsg} or Stop if you are done`)
+    .card({
+        type: "Standard",
+        title: `${bestMovie.show_title} (${bestMovie.release_year})`,
+        text:  `${bestMovie.summary}
+          Runtime: ${bestMovie.runtime}
+          Rating: ${bestMovie.rating}`,
+        image: {
+          smallImageUrl: bestMovie.poster.replace('http:','https:')
+        }
+      })
+    .reprompt(`You can make another request or you can say Stop if you are done.`)
+    .session('activeMovie', bestMovie)
+    .session('activeMovieArray', movieData)
+    .shouldEndSession(false)
+    .send();
+}
+
 function selectBestMovie(movieList) {
-  return movieList && movieList[0];
+  return movieList && movieList.shift();
 }
 
 module.exports = app;
