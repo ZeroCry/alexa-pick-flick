@@ -14,6 +14,10 @@ app.launch(function(req, res) {
   res.say(prompt).reprompt(prompt).shouldEndSession(false);
 });
 
+app.error = function(exception, request, response) {
+    response.say("Sorry, I was unable to handle that request. Please try again");
+};
+
 app.intent('MovieByDirector', {
   'slots': {
     'Director': 'AMAZON.LITERAL'
@@ -51,14 +55,23 @@ try{
       }else{
         let bestMovie = selectBestMovie(movieData);
         res
-          .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.`)
-          .reprompt(`Would you like to hear the movie summary? Or you can say Stop if you are done.`)
+          .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
+            A full description is shown in your Alexa app.`)
+          .card({
+              type: "Standard",
+              title: bestMovie.show_title,
+              text:  bestMovie.summary,
+              image: {
+                smallImageUrl: bestMovie.poster.replace('http:','https:')
+              }
+            })
+          .reprompt(`You can make another request or you can say Stop if you are done.`)
           .shouldEndSession(false)
           .send();
       }
     });
       return false;
-}catch(e){
+    }catch(e){
         res.say(reprompt).reprompt(reprompt).shouldEndSession(false).send();
         return true;
     }
