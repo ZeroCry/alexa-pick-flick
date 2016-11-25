@@ -1,6 +1,7 @@
-'use strict'
+'use strict';
 const Alexa = require('alexa-app');
 const app = new Alexa.app('pick-flick');
+const app_name = 'Pick Flick';
 const https = require('https');
 const apiRequestOptions = {
   hostname: 'netflixroulette.net',
@@ -44,8 +45,22 @@ app.intent('PickSomethingElse', {
 
 app.intent('AMAZON.StopIntent', {}, (req,res) => {
   res.clearSession();
-  res.say('Thank you for using Pick Flick');
-})
+  res.say(`Thank you for using ${app_name}`);
+});
+
+app.intent('AMAZON.HelpIntent', {}, (req,res) => {
+  const msg = `${app_name} can recommend movies from the Netflix Roulette database for a given actor or director.
+    Try questions like:<break/>
+    'Recommend a movie starring Tom Hanks'<break/>
+    'Give me a movie directed by Martin Scorsese'`;
+    res.card({
+      type: 'Simple',
+      title: `Welcome to ${app_name}`,
+      content: msg
+    });
+  res.say(msg);
+});
+
 
 function getMoviesByDirectorOrActor(req, res) {
 try{
@@ -98,7 +113,7 @@ function executeAPIRequest(options, callback){
 }
 
 function getNextOptionFromList(req, res) {
-  const noDataResponse = 'Sorry, I do not have any additional movies options for this request. Please request a different actor or director';
+  const noDataResponse = 'Sorry, I do not have any additional movie options for this request. Please request a different actor or director';
   let movieData = null;
   try {
     movieData = req.session('activeMovieArray');
@@ -145,5 +160,5 @@ function selectBestMovie(movieList) {
 }
 
 module.exports = app;
-module.change_code=1
+module.change_code=1;
 exports.handler = app.lambda();

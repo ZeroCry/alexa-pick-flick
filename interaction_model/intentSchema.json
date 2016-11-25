@@ -25,6 +25,10 @@
     {
       "intent": "AMAZON.StopIntent",
       "slots": []
+    },
+    {
+      "intent": "AMAZON.HelpIntent",
+      "slots": []
     }
   ]
 }
