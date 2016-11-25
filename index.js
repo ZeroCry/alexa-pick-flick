@@ -3,12 +3,14 @@ const Alexa = require('alexa-app');
 const app = new Alexa.app('pick-flick');
 const app_name = 'Pick Flick';
 const https = require('https');
+const Speech = require('ssml-builder');
 const apiRequestOptions = {
   hostname: 'netflixroulette.net',
   port: 443,
   path: '/api/api.php',
   method: 'GET'
 };
+const allowedAppIds = ['amzn1.echo-sdk-ams.app.000000-d0ed-0000-ad00-000000d00ebe', 'amzn1.ask.skill.5a0779c0-9150-441d-849e-61b482f37e3c']
 
 app.launch(function(req, res) {
   var prompt = 'For movie information, ask for a recomendation by director or actor.';
@@ -16,8 +18,9 @@ app.launch(function(req, res) {
 });
 
 app.pre = function(request,response,type) {
-    if (request.sessionDetails.application.applicationId!="amzn1.ask.skill.5a0779c0-9150-441d-849e-61b482f37e3c") {
+    if (allowedAppIds.indexOf(request.sessionDetails.application.applicationId) == -1) {
         // Fail ungracefully
+        console.log(`failing invalid application request ${request.sessionDetails.application.applicationId}`)
         response.fail("Invalid applicationId");
     }
 };
@@ -70,11 +73,12 @@ app.intent('AMAZON.HelpIntent', {}, (req,res) => {
 
 
 function getMoviesByDirectorOrActor(req, res) {
+  console.log('got here')
 try{
   const type = (req.data.request.intent.name == 'MovieByDirector' ? 'Director':'Actor');
   const search = req.slot(type);
   const query = `?${type.toLowerCase()}=${search.replace(/ /g,'%20')}`;
-    let reprompt = `Sorry, I'm not sure what ${type} you are looking for. Please try again.`;
+
     let options = Object.assign({}, apiRequestOptions);
     options.path += query;
     //load api response
@@ -91,6 +95,7 @@ try{
     });
       return false;
     }catch(e){
+      let reprompt = `Sorry, I wasn't able to understand your request. Please try again.`;
         res.say(reprompt).reprompt(reprompt).shouldEndSession(false).send();
         return true;
     }
@@ -143,8 +148,12 @@ function sendMovieRecommendation(movieData, res) {
   }
 
   res
-    .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
-      A full description is shown in your Alexa app. ${nextStepMsg} or Stop if you are done`)
+    .say(
+      new Speech()
+        .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
+        A full description is shown in your Alexa app. ${nextStepMsg} or Stop if you are done`)
+        .ssml(true)
+      )
     .card({
         type: "Standard",
         title: `${bestMovie.show_title} (${bestMovie.release_year})`,

@@ -15,6 +15,7 @@
   "author": "Chris Deely",
   "license": "ISC",
   "dependencies": {
-    "alexa-app": "^2.3.4"
+    "alexa-app": "^2.3.4",
+    "ssml-builder": "^0.1.0"
   }
 }
