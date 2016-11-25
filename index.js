@@ -42,6 +42,11 @@ app.intent('PickSomethingElse', {
   getNextOptionFromList
 );
 
+app.intent('AMAZON.StopIntent', {}, (req,res) => {
+  res.clearSession();
+  res.say('Thank you for using Pick Flick');
+})
+
 function getMoviesByDirectorOrActor(req, res) {
 try{
   const type = (req.data.request.intent.name == 'MovieByDirector' ? 'Director':'Actor');

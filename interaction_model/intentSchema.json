@@ -21,6 +21,10 @@
     {
       "intent": "PickSomethingElse",
       "slots": []
+    },
+    {
+      "intent": "AMAZON.StopIntent",
+      "slots": []
     }
   ]
 }
