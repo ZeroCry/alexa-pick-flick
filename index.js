@@ -15,6 +15,13 @@ app.launch(function(req, res) {
   res.say(prompt).reprompt(prompt).shouldEndSession(false);
 });
 
+app.pre = function(request,response,type) {
+    if (request.sessionDetails.application.applicationId!="amzn1.ask.skill.5a0779c0-9150-441d-849e-61b482f37e3c") {
+        // Fail ungracefully
+        response.fail("Invalid applicationId");
+    }
+};
+
 app.error = function(exception, request, response) {
     response.say("Sorry, I was unable to handle that request. Please try again");
 };
