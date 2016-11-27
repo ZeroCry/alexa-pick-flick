@@ -73,7 +73,6 @@ app.intent('AMAZON.HelpIntent', {}, (req,res) => {
 
 
 function getMoviesByDirectorOrActor(req, res) {
-  console.log('got here')
 try{
   const type = (req.data.request.intent.name == 'MovieByDirector' ? 'Director':'Actor');
   const search = req.slot(type);
@@ -134,6 +133,7 @@ function getNextOptionFromList(req, res) {
       return true;
     }
     sendMovieRecommendation(movieData, res);
+    return false;
   }catch(e){
     res.say(noDataResponse);
   }
@@ -146,33 +146,50 @@ function sendMovieRecommendation(movieData, res) {
     const singular = movieData.length === 1;
     nextStepMsg = `There ${singular ? 'is':'are'} ${movieData.length} other option${singular?'':'s'}, say 'Pick something else'`;
   }
-
-  res
-    .say(
-      new Speech()
-        .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
-        A full description is shown in your Alexa app. ${nextStepMsg} or Stop if you are done`)
-        .ssml(true)
-      )
-    .card({
+  checkUrlExists(bestMovie.poster, (imageAvailable) => {
+    let card = {
         type: "Standard",
         title: `${bestMovie.show_title} (${bestMovie.release_year})`,
         text:  `${bestMovie.summary}
           Runtime: ${bestMovie.runtime}
-          Rating: ${bestMovie.rating}`,
-        image: {
+          Rating: ${bestMovie.rating}`
+      };
+      if(imageAvailable){
+        card.image = {
           smallImageUrl: bestMovie.poster.replace('http:','https:')
         }
-      })
-    .reprompt(`You can make another request or you can say Stop if you are done.`)
-    .session('activeMovie', bestMovie)
-    .session('activeMovieArray', movieData)
-    .shouldEndSession(false)
-    .send();
+      }
+
+    res
+      .say(
+        new Speech()
+          .say(`I recommend ${bestMovie.show_title} from ${bestMovie.release_year}, which has a rating of ${bestMovie.rating} stars.
+          A full description is shown in your Alexa app. ${nextStepMsg} or Stop if you are done`)
+          .ssml(true)
+        )
+      .card(card)
+      .reprompt(`You can make another request or you can say Stop if you are done.`)
+      .session('activeMovie', bestMovie)
+      .session('activeMovieArray', movieData)
+      .shouldEndSession(false)
+      .send();
+  });
 }
 
 function selectBestMovie(movieList) {
   return movieList && movieList.shift();
+}
+
+function checkUrlExists(Url, callback) {
+    var url = require('url');
+    var options = {
+        method: 'HEAD',
+        host: url.parse(Url).host,
+        path: url.parse(Url).pathname
+    };
+    var req = https.request(options, function (r) {
+        callback( r.statusCode== 200);});
+    req.end();
 }
 
 module.exports = app;
