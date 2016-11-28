@@ -181,6 +181,10 @@ function selectBestMovie(movieList) {
 }
 
 function checkUrlExists(Url, callback) {
+  //Unfortunately, the NetflixRoulette poster URLs are on a server without CORS support
+  //as such, we'll disable card images until that can be resolved
+  return callback(false);
+  
     var url = require('url');
     var options = {
         method: 'HEAD',
