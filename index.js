@@ -33,7 +33,7 @@ app.intent('MovieByDirector', {
   'slots': {
     'Director': 'AMAZON.LITERAL'
   },
-  'utterances': ['{find|pick|get|recommend} {movies|shows|a movie|show} directed by {onename|two name|three word name|Director}']
+  'utterances': ['{find|pick|get|recommend} {movies|shows|a movie|show} directed by {Madonna|Tim Burton|Guillermo del Toro|Director}']
 },
   getMoviesByDirectorOrActor
 );
@@ -42,7 +42,7 @@ app.intent('MovieByActor', {
   'slots': {
     'Actor': 'AMAZON.LITERAL'
   },
-  'utterances': ['{find|pick|get|recommend|choose} {movies|shows|a movie|show} {starring|with|featuring} {onename|two name|three word name|Actor}']
+  'utterances': ['{find|pick|get|recommend|choose} {movies|shows|a movie|show} {starring|with|featuring} {Madonna|Tom Hanks|Brad Pitt|BD Wong|Tommy Lee Jones|Actor}']
 },
   getMoviesByDirectorOrActor
 );
@@ -53,7 +53,9 @@ app.intent('PickSomethingElse', {
   getNextOptionFromList
 );
 
-app.intent('AMAZON.StopIntent', {}, (req,res) => {
+app.intent('AMAZON.StopIntent', {
+  'utterances': ['{stop|quit|cancel|exit}']
+}, (req,res) => {
   res.clearSession();
   res.say(`Thank you for using ${app_name}`);
 });
@@ -62,13 +64,15 @@ app.intent('AMAZON.HelpIntent', {}, (req,res) => {
   const msg = `${app_name} can recommend movies from the Netflix Roulette database for a given actor or director.
     Try questions like:<break/>
     'Recommend a movie starring Tom Hanks'<break/>
-    'Give me a movie directed by Martin Scorsese'`;
+    'Give me a movie directed by Martin Scorsese'<break/>
+    What type of movie request are you interested in?`;
     res.card({
       type: 'Simple',
       title: `Welcome to ${app_name}`,
       content: msg
-    });
-  res.say(msg);
+    })
+    .shouldEndSession(false)
+    .say(msg);
 });
 
 
@@ -184,7 +188,7 @@ function checkUrlExists(Url, callback) {
   //Unfortunately, the NetflixRoulette poster URLs are on a server without CORS support
   //as such, we'll disable card images until that can be resolved
   return callback(false);
-  
+
     var url = require('url');
     var options = {
         method: 'HEAD',
