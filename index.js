@@ -11,7 +11,7 @@ const apiRequestOptions = {
   method: 'GET'
 };
 const allowedAppIds = ['amzn1.echo-sdk-ams.app.000000-d0ed-0000-ad00-000000d00ebe', 'amzn1.ask.skill.5a0779c0-9150-441d-849e-61b482f37e3c']
-
+app.exhaustiveUtterances = true;
 app.launch(function(req, res) {
   var prompt = 'For movie information, ask for a recomendation by director or actor.';
   res.say(prompt).reprompt(prompt).shouldEndSession(false);
@@ -33,7 +33,7 @@ app.intent('MovieByDirector', {
   'slots': {
     'Director': 'AMAZON.LITERAL'
   },
-  'utterances': ['{find|pick|get|recommend} {movies|shows|a movie|show} directed by {Madonna|Tim Burton|Guillermo del Toro|Director}']
+  'utterances': ['{find|pick|get|recommend |} {movies|shows|a movie|show} directed by {Madonna|Tim Burton|Guillermo del Toro|Director}']
 },
   getMoviesByDirectorOrActor
 );
@@ -42,13 +42,13 @@ app.intent('MovieByActor', {
   'slots': {
     'Actor': 'AMAZON.LITERAL'
   },
-  'utterances': ['{find|pick|get|recommend|choose} {movies|shows|a movie|show} {starring|with|featuring} {Madonna|Tom Hanks|Brad Pitt|BD Wong|Tommy Lee Jones|Actor}']
+  'utterances': ['{find|pick|get|recommend|choose |} {movies|shows|a movie|show} {starring|with|featuring} {Madonna|Tom Hanks|Brad Pitt|BD Wong|Tommy Lee Jones|Actor}']
 },
   getMoviesByDirectorOrActor
 );
 
 app.intent('PickSomethingElse', {
-  'utterances': ['{find|pick|get|recommend|choose} {something else|another|something different|next|next option}','{next|skip|no}']
+  'utterances': ['{find|pick|get|recommend|choose |} {something else|another|something different|next|next option}','{next|skip|no}']
 },
   getNextOptionFromList
 );
